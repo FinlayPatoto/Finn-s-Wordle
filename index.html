@@ -256,14 +256,14 @@
         let currentWords = [];
 
         // Fetch the list of valid words from a text file
-        fetch('wordlist.txt')
+        fetch('words/wordlist.txt')
             .then(response => response.text())
             .then(wordList => {
                 validWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
             })
             .catch(error => console.error('Error fetching word list:', error));
 
-        fetch('validWords.txt')
+        fetch('words/validWords.txt')
             .then(response => response.text())
             .then(wordList => {
                 currentWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
