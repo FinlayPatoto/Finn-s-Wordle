@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Finn's Wordle</title>
     <style>
@@ -24,8 +24,10 @@
         #container {
             width: 80%;
             /* Set the width to 80% of the viewport width */
-            max-width: 800px;
+            max-width: 1000px;
             /* Set a maximum width for larger screens */
+            height: 80vh;
+            /* Set the height to 80% of the viewport height */
         }
 
         h1 {
@@ -107,7 +109,6 @@
 
         #keyboard {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
         }
@@ -116,7 +117,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 30px;
+            min-width: 30px;
             height: 40px;
             border: 2px solid #333;
             margin: 0 5px;
@@ -130,6 +131,15 @@
         #enter-key {
             width: 50px;
             /* Adjust the width of the Enter key */
+        }
+
+        /* Adjust the size of keyboard keys for smaller screens */
+        @media (max-width: 600px) {
+            .keyboard-key {
+                min-width: 20px;
+                height: 30px;
+                font-size: 14px;
+            }
         }
 
         #popup {
@@ -246,14 +256,14 @@
         let currentWords = [];
 
         // Fetch the list of valid words from a text file
-        fetch('words/wordlist.txt')
+        fetch('wordlist.txt')
             .then(response => response.text())
             .then(wordList => {
                 validWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
             })
             .catch(error => console.error('Error fetching word list:', error));
 
-        fetch('words/validWords.txt')
+        fetch('validWords.txt')
             .then(response => response.text())
             .then(wordList => {
                 currentWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
