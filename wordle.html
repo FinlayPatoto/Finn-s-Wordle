@@ -272,6 +272,13 @@
             .catch(error => console.error('Error fetching word list:', error));
 
         function pickRandomWord() {
+            const currentDate = new Date();
+            const seed = currentDate.toISOString().slice(0, 10); // Use the YYYY-MM-DD format as the seed
+            const seedNumber = parseInt(seed.replace(/-/g, ''), 10);
+
+            // Set the seed for the random number generator
+            Math.seedrandom(seedNumber.toString());
+
             const randomIndex = Math.floor(Math.random() * currentWords.length);
             return currentWords[randomIndex];
         }
@@ -394,7 +401,7 @@
             const feedback = document.getElementById("feedback");
             const attemptsDisplay = document.getElementById("attempts");
 
-            if(guessInput.value.length !== 5) return;
+            if (guessInput.value.length !== 5) return;
 
             if (guessInput.value.length === 5 && attempts < 6) {
                 const enteredWord = guessInput.value.trim().toLowerCase();
