@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finn's Wordle</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+            height: 100vh;
+            /* Set the height to 100% of the viewport height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #container {
+            width: 80%;
+            /* Set the width to 80% of the viewport width */
+            max-width: 1000px;
+            /* Set a maximum width for larger screens */
+            height: 80vh;
+            /* Set the height to 80% of the viewport height */
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #wordToGuess1,
+        #wordToGuess2,
+        #wordToGuess3,
+        #wordToGuess4,
+        #wordToGuess5,
+        #wordToGuess6 {
+            display: flex;
+            justify-content: center;
+            margin: 4px 0;
+        }
+
+        .letter-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #c2c2c2;
+            margin: 0 4px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            color: #ffffff;
+        }
+
+        .letter-box2 {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #c2c2c2;
+            margin: 0 4px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            color: #000000;
+        }
+
+        #feedback {
+            color: #333;
+            margin: 10px 0;
+        }
+
+        #attempts {
+            color: #333;
+            margin: 10px 0;
+        }
+
+        label {
+            color: #333;
+            margin-right: 10px;
+        }
+
+        #guessInput {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 16px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #keyboard {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .keyboard-key {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            height: 40px;
+            border: 2px solid #333;
+            margin: 0 5px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+
+        #enter-key {
+            width: 50px;
+            /* Adjust the width of the Enter key */
+        }
+
+        /* Adjust the size of keyboard keys for smaller screens */
+        @media (max-width: 600px) {
+            .keyboard-key {
+                min-width: 20px;
+                height: 30px;
+                font-size: 14px;
+            }
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            background-color: #000000;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Finn's Wordle</h1>
+        <div id="popup">Not in word list</div>
+        <div id="wordToGuess1">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <div id="wordToGuess2">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <div id="wordToGuess3">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <div id="wordToGuess4">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <div id="wordToGuess5">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <div id="wordToGuess6">
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+            <span class="letter-box"></span>
+        </div>
+        <p id="feedback"></p>
+        <p id="attempts" style="display: none;">Attempts: 0/5</p>
+        <label for="guessInput" style="display: none;">Enter your guess: </label>
+        <input type="text" id="guessInput" style="display: none;" maxlength="5" onkeydown="handleKeyPress(event)">
+
+        <div id="keyboard">
+            <div class="keyboard-key" onclick="addLetter('q')">Q</div>
+            <div class="keyboard-key" onclick="addLetter('w')">W</div>
+            <div class="keyboard-key" onclick="addLetter('e')">E</div>
+            <div class="keyboard-key" onclick="addLetter('r')">R</div>
+            <div class="keyboard-key" onclick="addLetter('t')">T</div>
+            <div class="keyboard-key" onclick="addLetter('y')">Y</div>
+            <div class="keyboard-key" onclick="addLetter('u')">U</div>
+            <div class="keyboard-key" onclick="addLetter('i')">I</div>
+            <div class="keyboard-key" onclick="addLetter('o')">O</div>
+            <div class="keyboard-key" onclick="addLetter('p')">P</div>
+        </div>
+
+        <div id="keyboard">
+            <div class="keyboard-key" onclick="addLetter('a')">A</div>
+            <div class="keyboard-key" onclick="addLetter('s')">S</div>
+            <div class="keyboard-key" onclick="addLetter('d')">D</div>
+            <div class="keyboard-key" onclick="addLetter('f')">F</div>
+            <div class="keyboard-key" onclick="addLetter('g')">G</div>
+            <div class="keyboard-key" onclick="addLetter('h')">H</div>
+            <div class="keyboard-key" onclick="addLetter('j')">J</div>
+            <div class="keyboard-key" onclick="addLetter('k')">K</div>
+            <div class="keyboard-key" onclick="addLetter('l')">L</div>
+        </div>
+
+        <div id="keyboard">
+            <div id="enter-key" class="keyboard-key" onclick="checkGuess()">Enter</div>
+            <div class="keyboard-key" onclick="addLetter('z')">Z</div>
+            <div class="keyboard-key" onclick="addLetter('x')">X</div>
+            <div class="keyboard-key" onclick="addLetter('c')">C</div>
+            <div class="keyboard-key" onclick="addLetter('v')">V</div>
+            <div class="keyboard-key" onclick="addLetter('b')">B</div>
+            <div class="keyboard-key" onclick="addLetter('n')">N</div>
+            <div class="keyboard-key" onclick="addLetter('m')">M</div>
+            <div id="enter-key" class="keyboard-key" onclick="removeLastLetter()">-</div>
+        </div>
+    </div>
+    <script>
+        const words = ["apple", "happy", "music", "house", "piano"];
+        let currentWord;
+        let guessedWord = Array(5).fill(null);
+        let attempts = 0;
+        var guessed = false;
+
+        let validWords = [];
+        let currentWords = [];
+
+        // Fetch the list of valid words from a text file
+        fetch('words/wordlist.txt')
+            .then(response => response.text())
+            .then(wordList => {
+                validWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
+            })
+            .catch(error => console.error('Error fetching word list:', error));
+
+        fetch('words/validWords.txt')
+            .then(response => response.text())
+            .then(wordList => {
+                currentWords = wordList.split('\n').map(word => word.trim().toLowerCase()); // Convert to lowercase for case-insensitive comparison
+                currentWord = pickRandomWord();
+            })
+            .catch(error => console.error('Error fetching word list:', error));
+
+        function pickRandomWord() {
+            const randomIndex = Math.floor(Math.random() * currentWords.length);
+            return currentWords[randomIndex];
+        }
+
+        function updateWordDisplay() {
+            var wordToGuess = document.getElementById("wordToGuess1");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+
+            wordToGuess = document.getElementById("wordToGuess2");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+
+            wordToGuess = document.getElementById("wordToGuess3");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+
+            wordToGuess = document.getElementById("wordToGuess4");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+
+            wordToGuess = document.getElementById("wordToGuess5");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+
+            wordToGuess = document.getElementById("wordToGuess6");
+            wordToGuess.innerHTML = "";
+            guessedWord.forEach((letter) => {
+                const span = document.createElement("span");
+                span.className = "letter-box";
+                span.textContent = letter ? letter : "";
+                wordToGuess.appendChild(span);
+            });
+        }
+
+        function UpdateBoxes(text) {
+            if (text == null) {
+                console.error("Invalid text");
+                return;
+            }
+
+            var wordToGuess;
+
+            if (attempts == 0) {
+                wordToGuess = document.getElementById("wordToGuess1");
+            }
+            else if (attempts == 1) {
+                wordToGuess = document.getElementById("wordToGuess2");
+            }
+            else if (attempts == 2) {
+                wordToGuess = document.getElementById("wordToGuess3");
+            }
+            else if (attempts == 3) {
+                wordToGuess = document.getElementById("wordToGuess4");
+            }
+            else if (attempts == 4) {
+                wordToGuess = document.getElementById("wordToGuess5");
+            }
+            else if (attempts == 5) {
+                wordToGuess = document.getElementById("wordToGuess6");
+            }
+
+            if (wordToGuess == null) {
+
+            }
+            else {
+
+                wordToGuess.innerHTML = "";
+                for (let i = 0; i < text.length; i++) {
+                    const span = document.createElement("span");
+                    span.className = "letter-box";
+                    span.textContent = text ? text[i].toUpperCase() : "";
+
+                    // Set background color based on correctness
+                    if (text[i] === currentWord[i]) {
+                        span.style.backgroundColor = "rgb(106, 170, 100)";  // Correct letter in correct position
+                    } else if (currentWord.includes(text[i])) {
+                        span.style.backgroundColor = "rgb(201, 180, 88)"; // Correct letter in wrong position
+                    } else {
+                        span.style.backgroundColor = "rgb(120, 124, 126)";    // Incorrect letter
+                    }
+
+                    wordToGuess.appendChild(span);
+                }
+            }
+        }
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        }
+        function checkGuess() {
+            if (guessed || validWords.length === 0) return;
+            const guessInput = document.getElementById("guessInput");
+            const feedback = document.getElementById("feedback");
+            const attemptsDisplay = document.getElementById("attempts");
+
+            if(guessInput.value.length !== 5) return;
+
+            if (guessInput.value.length === 5 && attempts < 6) {
+                const enteredWord = guessInput.value.trim().toLowerCase();
+
+
+                if (validWords.includes(enteredWord)) {
+                    UpdateBoxes(enteredWord);
+
+                    // Set background color for each letter in the entered word
+                    for (let i = 0; i < enteredWord.length; i++) {
+                        const letter = enteredWord[i];
+                        const keyboardKey = document.querySelector(`.keyboard-key[onclick="addLetter('${letter}')"]`);
+                        const currentBackgroundColor = window.getComputedStyle(keyboardKey).backgroundColor;
+
+                        // Check if the background color is already set for the correct letter in the correct position
+                        if (currentBackgroundColor !== "rgb(106, 170, 100)") {
+                            if (letter === currentWord[i]) {
+                                keyboardKey.style.backgroundColor = "rgb(106, 170, 100)"; // Correct letter in correct position
+                            } else if (currentWord.includes(letter)) {
+                                keyboardKey.style.backgroundColor = "rgb(201, 180, 88)"; // Correct letter in wrong position
+                            } else {
+                                keyboardKey.style.backgroundColor = "rgb(120, 124, 126)"; // Incorrect letter
+                            }
+                        }
+
+                    }
+
+                    attempts++;
+                    const attemptNumber = attemptsDisplay.textContent = `Attempts: ${attempts}/6`;
+
+                    for (let i = 0; i < currentWord.length; i++) {
+                        if (guessInput.value[i] === currentWord[i]) {
+                            guessedWord[i] = guessInput.value[i];
+                        }
+                    }
+
+                    if (guessedWord.join("") === currentWord) {
+                        guessed = true;
+                        feedback.textContent = `Congratulations! You guessed the word "${currentWord}" in ${attemptNumber}.`;
+                    }
+
+                    if (attempts === 6) {
+                        feedback.textContent = `Game over! The word was: "${currentWord}"`;
+                    }
+                }
+                else {
+                    guessInput.value = "";
+                    DisplayInput();
+                    // Show the popup
+                    document.getElementById('popup').style.display = 'block';
+
+                    // Set a timeout to hide the popup after 500 milliseconds (0.5 seconds)
+                    setTimeout(function () {
+                        document.getElementById('popup').style.display = 'none';
+                    }, 1000);
+                }
+            } else {
+                feedback.textContent = `Game over! The word was: "${currentWord}"`;
+            }
+
+            guessInput.value = "";
+        }
+        function addLetter(letter) {// Convert the pressed key to lowercase
+            const pressedLetter = letter.toLowerCase();
+
+            // Get the reference to the input field
+            const guessInput = document.getElementById("guessInput");
+
+            // Append the pressed key to the input field value
+            if (guessInput.value.length < 5) {
+                guessInput.value += pressedLetter;
+                DisplayInput();
+            }
+        }
+
+        // Add an event listener to the document for any keydown event
+        document.addEventListener('keydown', function (event) {
+            // Check if the pressed key is a letter (manually)
+            const isLetter = /^[a-zA-Z]$/.test(event.key);
+
+            if (isLetter) {
+                // Convert the pressed key to lowercase
+                const pressedLetter = event.key.toLowerCase();
+
+                // Get the reference to the input field
+                const guessInput = document.getElementById("guessInput");
+
+                // Append the pressed key to the input field value
+                if (guessInput.value.length < 5) {
+                    guessInput.value += pressedLetter;
+                    DisplayInput();
+                }
+
+            } else if (event.key === 'Backspace') {
+                // Check if the Backspace key is pressed
+                // Call the function to remove the last letter from the input field
+                removeLastLetter();
+            } else if (event.key === 'Enter' || event.key === 'Return') {
+                // Check if the Enter key is pressed
+                // Call the function to handle Enter key press
+                checkGuess();
+            }
+        });
+        // Function to remove the last letter from the input field
+        function removeLastLetter() {
+            const guessInput = document.getElementById("guessInput");
+            const currentInput = guessInput.value;
+
+            // Check if the input field is not empty
+            if (currentInput.length > 0) {
+                // Remove the last letter by updating the input field value
+                guessInput.value = currentInput.slice(0, -1);
+                DisplayInput();
+            }
+        }
+
+
+
+
+
+        function DisplayInput() {
+
+            console.log("Update Display");
+            const guessInput = document.getElementById("guessInput");
+            var text = guessInput.value;
+
+            if (text == null) {
+                return;
+            }
+
+            var wordToGuess;
+
+            if (attempts == 0) {
+                wordToGuess = document.getElementById("wordToGuess1");
+            }
+            else if (attempts == 1) {
+                wordToGuess = document.getElementById("wordToGuess2");
+            }
+            else if (attempts == 2) {
+                wordToGuess = document.getElementById("wordToGuess3");
+            }
+            else if (attempts == 3) {
+                wordToGuess = document.getElementById("wordToGuess4");
+            }
+            else if (attempts == 4) {
+                wordToGuess = document.getElementById("wordToGuess5");
+            }
+            else if (attempts == 5) {
+                wordToGuess = document.getElementById("wordToGuess6");
+            }
+
+            if (wordToGuess == null) {
+            }
+            else {
+
+                wordToGuess.innerHTML = "";
+                for (let i = 0; i < 5; i++) {
+                    const span = document.createElement("span");
+                    span.className = "letter-box2";
+                    span.textContent = text[i] ? text[i].toUpperCase() : "";
+                    console.log(text[i]);
+
+                    wordToGuess.appendChild(span);
+                }
+            }
+        }
+        // Initial display setup
+        updateWordDisplay();
+    </script>
+</body>
+
+</html>
