@@ -270,8 +270,8 @@
                 currentWord = pickRandomWord();
             })
             .catch(error => console.error('Error fetching word list:', error));
-       
-       
+
+
         // Custom seed-based random number generator
         function seededRandom(seed) {
             let x = Math.sin(seed) * 10000;
@@ -577,6 +577,26 @@
         // Initial display setup
         updateWordDisplay();
     </script>
+
+    <script>
+        var totalPlaysKey = "totalPlaysKey";
+        var totalWins = "totalWins";
+        var totalLoses = "totalLoses";
+
+        var intPlays;
+        var inWins;
+        var intLose;
+
+        loadCookies();
+
+        function loadCookies()
+        {
+
+        }
+
+    </script>
+
+    <script src="js/cookie.js"></script>
 </body>
 
 </html>
