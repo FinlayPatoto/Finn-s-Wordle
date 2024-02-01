@@ -400,6 +400,8 @@
             const feedback = document.getElementById("feedback");
             const attemptsDisplay = document.getElementById("attempts");
 
+            if (guessInput.value.length !== 5) return;
+
             if (guessInput.value.length === 5 && attempts < 6) {
                 const enteredWord = guessInput.value.trim().toLowerCase();
 
