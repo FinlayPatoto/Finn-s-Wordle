@@ -446,6 +446,8 @@
 
                     if (guessedWord.join("") === currentWord) {
                         guessed = true;
+                        
+            processWordToGuess1Squares();
                         setTimeout(sendSMS, 1200);
                         feedback.textContent = `Congratulations! You guessed the word "${currentWord}" in ${attemptNumber}.`;
                     }
@@ -579,7 +581,6 @@
         updateWordDisplay();
 
         function sendSMS() {
-            processWordToGuess1Squares();
     // Get the result or relevant information to include in the SMS
     var resultMessage = "I guessed correctly!";
 
