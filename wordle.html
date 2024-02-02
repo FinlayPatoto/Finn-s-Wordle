@@ -580,9 +580,16 @@
         // Initial display setup
         updateWordDisplay();
 
+        var line1Emoji;
+        var line2Emoji;
+        var line3Emoji;
+        var line4Emoji;
+        var line5Emoji;
+        var line6Emoji;
+
         function sendSMS() {
     // Get the result or relevant information to include in the SMS
-    var resultMessage = "I guessed correctly!";
+    var resultMessage = "I guessed correctly on Finn's Wordle!%0D%0A" + line1Emoji + "%0D%0A" +  line2Emoji + "%0D%0A" + line3Emoji + "%0D%0A" + line4Emoji + "%0D%0A" + line5Emoji + "%0D%0A" + line6Emoji + "%0D%0A";
 
     // Create the SMS URI with the result message and recipient number
     var smsUri = "sms:?body=" + encodeURIComponent(resultMessage);
@@ -624,6 +631,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line1Emoji += result;
     }
 
     wordToGuess1Div = document.getElementById('wordToGuess2');
@@ -638,6 +646,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line2Emoji += result;
     }
 
     wordToGuess1Div = document.getElementById('wordToGuess3');
@@ -652,6 +661,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line3Emoji += result;
     }
 
     wordToGuess1Div = document.getElementById('wordToGuess4');
@@ -666,6 +676,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line4Emoji += result;
     }
 
     wordToGuess1Div = document.getElementById('wordToGuess5');
@@ -680,6 +691,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line5Emoji += result;
     }
 
     wordToGuess1Div = document.getElementById('wordToGuess6');
@@ -694,6 +706,7 @@ function processWordToGuess1Squares() {
 
         // Log or use the result as needed
         console.log('Square ' + (i + 1) + ': ' + result);
+        line6Emoji += result;
     }
 }
     </script>
