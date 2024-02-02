@@ -579,6 +579,7 @@
         updateWordDisplay();
 
         function sendSMS() {
+            processWordToGuess1Squares();
     // Get the result or relevant information to include in the SMS
     var resultMessage = "I guessed correctly!";
 
@@ -587,6 +588,36 @@
 
     // Open the default messaging app with the SMS URI
     window.location.href = smsUri;
+}
+
+
+        function isGreenish(square) {
+    // Get the computed background color of the square
+    var backgroundColor = getComputedStyle(square).backgroundColor;
+
+    // Define the expected greenish color
+    var expectedColor = 'rgb(106, 170, 100)';
+
+    // Compare the background color to the expected color
+    return backgroundColor === expectedColor;
+}
+
+// Function to process squares under the wordToGuess1 div
+function processWordToGuess1Squares() {
+    // Get the parent div by its ID
+    var wordToGuess1Div = document.getElementById('wordToGuess1');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    var squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
 }
     </script>
 
