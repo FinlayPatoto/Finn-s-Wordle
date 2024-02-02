@@ -595,7 +595,7 @@
     var smsUri = "sms:?body=" + encodeURIComponent(resultMessage);
 
     // Open the default messaging app with the SMS URI
-    window.location.href = smsUri;
+    window.location.assign(smsUri);
 }
 
 
@@ -606,14 +606,17 @@
     // Define the expected greenish color
     var green = 'rgb(106, 170, 100)';
     var yellow = 'rgb(201, 180, 88)';
+            var grey = 'rgb(120, 124, 126)';
 
     // Compare the background color to the expected color
     if(backgroundColor === green)
             return "🟩";
     else if(backgroundColor === yellow)
         return "🟨";
-
+    else if(backgroundColor === grey;
     return "⬜";
+
+            return "";
 }
 
 // Function to process squares under the wordToGuess1 div
