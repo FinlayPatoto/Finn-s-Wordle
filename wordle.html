@@ -596,10 +596,16 @@
     var backgroundColor = getComputedStyle(square).backgroundColor;
 
     // Define the expected greenish color
-    var expectedColor = 'rgb(106, 170, 100)';
+    var green = 'rgb(106, 170, 100)';
+    var yellow = 'rgb(201, 180, 88)';
 
     // Compare the background color to the expected color
-    return backgroundColor === expectedColor;
+    if(backgroundColor === green)
+            return "🟩";
+    else if(backgroundColor === yellow)
+        return "🟨";
+
+    return "⬜";
 }
 
 // Function to process squares under the wordToGuess1 div
