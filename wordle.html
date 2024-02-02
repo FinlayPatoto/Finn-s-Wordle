@@ -589,7 +589,7 @@
 
         function sendSMS() {
     // Get the result or relevant information to include in the SMS
-    var resultMessage = "I guessed correctly on Finn's Wordle!%0D%0A" + line1Emoji + "%0D%0A" +  line2Emoji + "%0D%0A" + line3Emoji + "%0D%0A" + line4Emoji + "%0D%0A" + line5Emoji + "%0D%0A" + line6Emoji + "%0D%0A";
+    var resultMessage = "I guessed correctly on Finn's Wordle! %0A" + line1Emoji + " %0A" +  line2Emoji + " %0A" + line3Emoji + " %0A" + line4Emoji + " %0A" + line5Emoji + " %0A" + line6Emoji + " %0A";
 
     // Create the SMS URI with the result message and recipient number
     var smsUri = "sms:?body=" + encodeURIComponent(resultMessage);
