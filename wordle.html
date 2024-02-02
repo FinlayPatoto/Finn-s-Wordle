@@ -446,7 +446,7 @@
 
                     if (guessedWord.join("") === currentWord) {
                         guessed = true;
-                        sendSMS();
+                        setTimeout(sendSMS, 1200);
                         feedback.textContent = `Congratulations! You guessed the word "${currentWord}" in ${attemptNumber}.`;
                     }
 
@@ -615,6 +615,76 @@ function processWordToGuess1Squares() {
 
     // Get all child elements with the class name 'letter-box' under the parent div
     var squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
+
+    wordToGuess1Div = document.getElementById('wordToGuess2');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
+
+    wordToGuess1Div = document.getElementById('wordToGuess3');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
+
+    wordToGuess1Div = document.getElementById('wordToGuess4');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
+
+    wordToGuess1Div = document.getElementById('wordToGuess5');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    squares = wordToGuess1Div.getElementsByClassName('letter-box');
+
+    // Loop through each square and check its background color
+    for (var i = 0; i < squares.length; i++) {
+        var square = squares[i];
+        var result = isGreenish(square);
+
+        // Log or use the result as needed
+        console.log('Square ' + (i + 1) + ': ' + result);
+    }
+
+    wordToGuess1Div = document.getElementById('wordToGuess6');
+
+    // Get all child elements with the class name 'letter-box' under the parent div
+    squares = wordToGuess1Div.getElementsByClassName('letter-box');
 
     // Loop through each square and check its background color
     for (var i = 0; i < squares.length; i++) {
