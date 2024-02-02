@@ -446,6 +446,7 @@
 
                     if (guessedWord.join("") === currentWord) {
                         guessed = true;
+                        sendSMS();
                         feedback.textContent = `Congratulations! You guessed the word "${currentWord}" in ${attemptNumber}.`;
                     }
 
@@ -576,6 +577,17 @@
         }
         // Initial display setup
         updateWordDisplay();
+
+        function sendSMS() {
+    // Get the result or relevant information to include in the SMS
+    var resultMessage = "I guessed correctly!";
+
+    // Create the SMS URI with the result message and recipient number
+    var smsUri = "sms:?body=" + encodeURIComponent(resultMessage);
+
+    // Open the default messaging app with the SMS URI
+    window.location.href = smsUri;
+}
     </script>
 
     <script>
